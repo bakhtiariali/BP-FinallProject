@@ -3,6 +3,7 @@ package Models.Database;
 import Models.Order;
 import Models.Products.Food.Food;
 import Models.Products.Product;
+import Models.Storage;
 import Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,6 +102,10 @@ public class OrderDatabase {
     public void removeOrder(int id) {
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getID() == id) {
+                ArrayList<Product> p = orders.get(i).getProducts();
+                for (Product product : p) {
+                    Storage.getInstance().addToSmt(product.getIngredientsAmount());
+                }
                 orders.remove(i);
                 return;
             }
