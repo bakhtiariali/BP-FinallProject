@@ -28,37 +28,31 @@ public class OrderDatabase {
 
     public OrderDatabase() {
         orders = new ArrayList<>();
-//        loadData();
+        loadData();
     }
 
     private void loadData() {
         try {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Product.class, Food.class)
-                    .create();
             BufferedReader br = new BufferedReader(new FileReader("orders.json"));
             orders = new Gson().fromJson(br, new TypeToken<ArrayList<Order>>(){}.getType());
             br.close();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
             orders = new ArrayList<>();
             saveData();
         }
     }
 
     private void saveData() {
-//        try {
-//            Gson gson = new GsonBuilder()
-//                    .registerTypeAdapter(Product.class, new ArrayList<Order>())
-//                    .create();
-//            FileWriter writer = new FileWriter("orders.json");
-//            writer.write(gson.toJson(orders));
-//            writer.close();
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        try {
+            FileWriter writer = new FileWriter("orders.json");
+            writer.write(new Gson().toJson(orders));
+            writer.close();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void saveChanges() {
